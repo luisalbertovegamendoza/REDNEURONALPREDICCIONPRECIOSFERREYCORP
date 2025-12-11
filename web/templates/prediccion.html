@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Predicción LSTM Ferreycorp</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid #666;
+      }
+      th {
+        background: #222;
+        color: white;
+        padding: 8px;
+      }
+      td {
+        padding: 6px;
+        text-align: center;
+      }
+      button {
+        padding: 10px 20px;
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 6px;
+        margin-right: 10px;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      h2,
+      h3 {
+        margin-top: 20px;
+      }
+      .btn-danger {
+        background: #dc3545;
+      }
+      .btn-danger:hover {
+        background: #a71d2a;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Predicción LSTM - Ferreycorp</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+      <button type="submit" name="btn_predecir">
+        Predecir precio del día 61
+      </button>
+      <button type="submit" class="btn-danger" name="btn_limpiar">
+        Limpiar predicción
+      </button>
+    </form>
+
+    {% if resultado %}
+    <h3>Precio Predicho del Día 61:</h3>
+    <p><strong>S/ {{ resultado|floatformat:2 }}</strong></p>
+    {% endif %}
+
+    <h3>Datos de los Últimos 60 Días</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Apertura</th>
+          <th>Cierre</th>
+          <th>Máximo</th>
+          <th>Mínimo</th>
+          <th>Volumen</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for d in datos_60 %}
+        <tr>
+          <td>{{ d.apertura|floatformat:2 }}</td>
+          <td>{{ d.cierre|floatformat:2 }}</td>
+          <td>{{ d.maximo|floatformat:2 }}</td>
+          <td>{{ d.minimo|floatformat:2 }}</td>
+          <td>{{ d.volumen|floatformat:0 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
